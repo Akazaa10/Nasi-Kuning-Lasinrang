@@ -1,0 +1,1150 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* High-Luminance Luxury Royal Bugis Palette — Vivid Emerald, Pure White, 24K Gold & Ruby Crimson */
+    --color-ivory: #FDFBF7;
+    --color-ivory-muted: #F7F2E7;
+    --color-ivory-soft: #FAF6EC;
+    --color-card: #FFFFFF;
+    --color-forest: #084C32;
+    --color-forest-hover: #063B27;
+    --color-forest-soft: #E6F4EE;
+    --color-turmeric: #FFC72C;
+    --color-turmeric-deep: #B87300;
+    --color-chili: #D91B24;
+    --color-chili-hover: #B8141C;
+    --color-espresso: #16110E;
+    --color-espresso-body: #261E19;
+    --color-espresso-muted: #4A3D35;
+    --border-hairline: rgba(8, 76, 50, 0.14);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  html,
+  body {
+    background-color: #FDFBF7;
+    color: #16110E;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, .font-serif-display {
+    font-family: var(--font-serif);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+
+  .font-mono-tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where(button, a, input, select, textarea):focus-visible {
+    outline: 2px solid #FFC72C;
+    outline-offset: 2px;
+  }
+}
+
+/* =========================================================================
+   LUMINOUS GOLD & HIGH-CONTRAST TYPOGRAPHY UTILITIES
+   ========================================================================= */
+
+.text-gold-luminous {
+  background: linear-gradient(180deg, #FFF3B0 0%, #FFD24C 48%, #F5AF19 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(255, 199, 44, 0.28));
+}
+
+/* =========================================================================
+   CANVAS & ARCHITECTURAL SURFACES — LUMINOUS PEARL & JEWEL EMERALD
+   ========================================================================= */
+
+.bg-culinary-canvas {
+  background-color: #FDFBF7;
+  background-image:
+    radial-gradient(
+      ellipse 90% 480px at 50% 0%,
+      rgba(255, 199, 44, 0.16) 0%,
+      rgba(8, 76, 50, 0.04) 52%,
+      transparent 80%
+    );
+  background-repeat: no-repeat;
+}
+
+/* Royal Bugis Lipa' Sabbe Songket Gold-Crimson-Emerald Ribbon */
+.bg-bugis-woven-band {
+  height: 5px;
+  width: 100%;
+  background-color: #063825;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      #084C32 0px,
+      #084C32 14px,
+      #FFC72C 14px,
+      #FFE57F 22px,
+      #D91B24 22px,
+      #D91B24 28px,
+      #FFE57F 28px,
+      #FFC72C 36px
+    );
+  border-bottom: 1px solid rgba(255, 210, 76, 0.65);
+}
+
+/* Royal Bugis Jewel Emerald Hero Stage with Luminous Sulappa Eppa' Gold Lattice */
+.bg-royal-bugis-hero {
+  background-color: #063624;
+  background-image:
+    radial-gradient(ellipse 75% 65% at 72% 35%, rgba(255, 199, 44, 0.24) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(217, 27, 36, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(12, 107, 70, 0.35) 0%, transparent 70%),
+    linear-gradient(135deg, rgba(255, 210, 76, 0.065) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(255, 210, 76, 0.065) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(255, 210, 76, 0.065) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(255, 210, 76, 0.065) 25%, #073D29 25%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px, 36px 36px, 36px 36px;
+  color: #FFFFFF;
+}
+
+/* Header Royal Bugis Lipa' Sabbe & Sulappa Eppa' Gold Filigree */
+.bg-header-royal-bugis {
+  background-color: #063825;
+  background-image:
+    radial-gradient(ellipse 65% 120% at 18% 50%, rgba(255, 199, 44, 0.26) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 120% at 85% 50%, rgba(217, 27, 36, 0.20) 0%, transparent 65%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 210, 76, 0.085) 0px,
+      rgba(255, 210, 76, 0.085) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 210, 76, 0.085) 0px,
+      rgba(255, 210, 76, 0.085) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    linear-gradient(90deg, #052E1E 0%, #0B5237 50%, #052E1E 100%);
+  backdrop-filter: blur(16px);
+  border-bottom: 1.5px solid rgba(255, 210, 76, 0.65);
+  box-shadow:
+    0 10px 30px -10px rgba(4, 24, 16, 0.65),
+    inset 0 1px 0 rgba(255, 229, 127, 0.35);
+}
+
+.bg-header-royal-inner {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(255, 210, 76, 0.20), transparent 70%),
+    linear-gradient(90deg, rgba(255, 199, 44, 0.12) 0%, rgba(10, 88, 60, 0.38) 50%, rgba(255, 199, 44, 0.12) 100%);
+  border: 1px solid rgba(255, 210, 76, 0.45);
+  box-shadow: inset 0 0 24px rgba(255, 199, 44, 0.12);
+}
+
+.bg-forest-architectural {
+  background-color: #063624;
+  background-image:
+    radial-gradient(ellipse 72% 48% at 50% 0%, rgba(255, 199, 44, 0.22) 0%, transparent 66%),
+    linear-gradient(180deg, #0A4D33 0%, #05291B 100%);
+  color: #FFFFFF;
+}
+
+/* =========================================================================
+   ROYAL BUGIS CULINARY CARDS & 24K GOLD-TRIMMED LUXURY SURFACES
+   ========================================================================= */
+
+/* Royal Gold-Trimmed 3D Premium Culinary Card System */
+.editorial-plate {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(180deg, #FFFFFF 0%, #FFFDF8 72%, #FAF1DB 100%);
+  border-radius: 1.35rem;
+  border: 1.5px solid #E8B020;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -2px 4px rgba(184, 125, 0, 0.14),
+    0 3px 0 0 #E0BA5C,
+    0 6px 0 0 #B3831E,
+    0 7px 0 0 #7C5506,
+    0 18px 36px -12px rgba(6, 56, 37, 0.28),
+    0 8px 18px -6px rgba(184, 134, 30, 0.18);
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.editorial-plate::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 36px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 25;
+}
+
+@media (hover: hover) {
+  .editorial-plate:hover {
+    transform: translateY(-5px) scale(1.012);
+    border-color: #FFD24C;
+    box-shadow:
+      inset 0 2px 0 #FFFFFF,
+      inset 0 -2px 5px rgba(184, 125, 0, 0.2),
+      0 4px 0 0 #E8C060,
+      0 8px 0 0 #BD8A20,
+      0 10px 0 0 #825806,
+      0 26px 48px -12px rgba(6, 56, 37, 0.36),
+      0 14px 28px -6px rgba(255, 199, 44, 0.34);
+  }
+}
+
+.editorial-plate-dark,
+.menu-card-3d-dark {
+  background-color: #073B27;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 85% 10%, rgba(255, 199, 44, 0.26) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 10% 90%, rgba(217, 27, 36, 0.15) 0%, transparent 60%),
+    linear-gradient(160deg, #0E6041 0%, #073E29 55%, #042519 100%);
+  border-radius: 1.5rem;
+  border: 2px solid #FFD24C;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 240, 185, 0.45),
+    inset 0 -3px 6px rgba(2, 18, 11, 0.65),
+    0 3px 0 0 #052D1E,
+    0 7px 0 0 #031B11,
+    0 9px 0 0 #9A6D12,
+    0 26px 54px -14px rgba(2, 18, 12, 0.68),
+    0 0 28px -6px rgba(255, 199, 44, 0.25);
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .editorial-plate-dark:hover,
+  .menu-card-3d-dark:hover {
+    transform: translateY(-4px);
+    border-color: #FFE57F;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 246, 208, 0.58),
+      inset 0 -3px 6px rgba(2, 18, 11, 0.55),
+      0 4px 0 0 #052D1E,
+      0 9px 0 0 #031B11,
+      0 11px 0 0 #B88318,
+      0 32px 62px -14px rgba(2, 18, 12, 0.78),
+      0 0 34px -4px rgba(255, 210, 76, 0.42);
+  }
+}
+
+.menu-mini-3d-card {
+  background-color: #063825;
+  background-image: linear-gradient(175deg, #0C573B 0%, #052D1E 100%);
+  border: 1.5px solid rgba(255, 210, 76, 0.85);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 242, 195, 0.42),
+    0 2px 0 0 #042518,
+    0 5px 0 0 #02160E,
+    0 6px 0 0 #8F650D,
+    0 14px 26px -8px rgba(0, 0, 0, 0.65);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .menu-mini-3d-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: #FFE57F;
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 248, 220, 0.6),
+      0 3px 0 0 #042518,
+      0 7px 0 0 #02160E,
+      0 8px 0 0 #BD8714,
+      0 20px 34px -8px rgba(0, 0, 0, 0.75),
+      0 0 18px -4px rgba(255, 210, 76, 0.45);
+  }
+}
+
+/* Foto Menu Ultra-HD 4K Tajam, Stabil & Anti-Hitam (No GPU VRAM Layer Eviction) */
+.culinary-photo,
+.hd-4k-image {
+  display: block;
+  opacity: 1;
+  image-rendering: auto;
+}
+
+.bg-hd-poster-stage {
+  background-color: #083B28;
+  background-image:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(255, 210, 76, 0.18) 0%,
+      rgba(8, 66, 44, 0.94) 58%,
+      #05291B 100%
+    );
+}
+
+.menu-poster-3d-frame {
+  position: relative;
+  background-color: #083B28;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 210, 76, 0.42),
+    inset 0 8px 18px -8px rgba(2, 20, 13, 0.45),
+    inset 0 -8px 16px -8px rgba(2, 20, 13, 0.45);
+}
+
+.menu-poster-3d-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 248, 220, 0.03) 26%,
+    transparent 52%,
+    rgba(255, 210, 76, 0.05) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* =========================================================================
+   REFINED INTERACTIVE CONTROLS (Vivid Jewel Emerald, Ruby & 24K Gold)
+   ========================================================================= */
+
+.emblem-3d-hd {
+  position: relative;
+  box-shadow:
+    0 6px 18px -8px rgba(8, 76, 50, 0.32),
+    0 0 0 2px #FFC72C;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms ease;
+}
+
+@media (hover: hover) {
+  .emblem-3d-hd:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 10px 24px -8px rgba(8, 76, 50, 0.4),
+      0 0 0 2.5px #FFD24C;
+  }
+}
+
+/* Vivid Ruby Chili Crimson CTA (Order / Accent Action) */
+.btn-3d-bernyawa-crimson {
+  position: relative;
+  border-radius: 0.75rem;
+  background-color: #D91B24;
+  color: #FFFFFF;
+  border: 1px solid #D91B24;
+  box-shadow: 0 3px 10px -2px rgba(217, 27, 36, 0.4);
+  transition: background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 140ms ease;
+}
+
+@media (hover: hover) {
+  .btn-3d-bernyawa-crimson:hover {
+    background-color: #B8141C;
+    border-color: #FFD24C;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px -6px rgba(217, 27, 36, 0.52);
+  }
+}
+
+.btn-3d-bernyawa-crimson:active {
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   SCULPTED 3D LUXURY EFFECT SYSTEM (EFEK 3D TIMBUL, BEVEL & BERDIMENSI)
+   ========================================================================= */
+
+:where(
+  .fx-2d-gold,
+  .fx-2d-forest,
+  .fx-2d-crimson,
+  .fx-2d-blue,
+  .fx-2d-ivory,
+  .fx-2d-dark-chip,
+  .fx-2d-icon-box,
+  .fx-2d-icon-gojek,
+  .fx-2d-icon-maxim,
+  .fx-2d-badge-pill,
+  .fx-2d-svg-emblem
+) {
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 180ms ease,
+    background-image 180ms ease,
+    border-color 180ms ease;
+}
+
+/* 3D Specular Crown Reflection on Buttons, Chips & Icon Medallions */
+:where(
+  .fx-2d-gold,
+  .fx-2d-forest,
+  .fx-2d-crimson,
+  .fx-2d-blue,
+  .fx-2d-ivory,
+  .fx-2d-dark-chip,
+  .fx-2d-icon-box,
+  .fx-2d-icon-gojek,
+  .fx-2d-icon-maxim
+)::after {
+  content: '';
+  position: absolute;
+  inset: 1px 2px 52% 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 255, 255, 0.10) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 1. 24K Luminous Turmeric Gold 3D Sculpted Bullion Button / CTA */
+.fx-2d-gold {
+  background-image: linear-gradient(
+    180deg,
+    #FFEE99 0%,
+    #FFC72C 48%,
+    #E09600 100%
+  ) !important;
+  color: #042215 !important;
+  text-shadow: 0 1px 0 rgba(255, 252, 235, 0.75);
+  border: 1.5px solid #FFF3B8 !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -3px 4px 0 rgba(140, 88, 0, 0.45),
+    0 2px 0 0 #B37400,
+    0 5px 0 0 #7D4F00,
+    0 6px 0 0 #4D2F00,
+    0 12px 22px -4px rgba(5, 34, 21, 0.48),
+    0 18px 34px -8px rgba(255, 199, 44, 0.45) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-gold:hover {
+    transform: translateY(-3px) scale(1.015);
+    background-image: linear-gradient(
+      180deg,
+      #FFF7C2 0%,
+      #FFD24C 48%,
+      #EB9E00 100%
+    ) !important;
+    box-shadow:
+      inset 0 2px 2px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -3px 4px 0 rgba(140, 88, 0, 0.38),
+      0 3px 0 0 #B37400,
+      0 7px 0 0 #7D4F00,
+      0 8px 0 0 #4D2F00,
+      0 18px 28px -4px rgba(5, 34, 21, 0.56),
+      0 22px 40px -6px rgba(255, 199, 44, 0.58) !important;
+  }
+}
+
+.fx-2d-gold:active {
+  transform: translateY(4px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 4px 0 rgba(102, 62, 0, 0.48),
+    0 1px 0 0 #7D4F00,
+    0 2px 0 0 #4D2F00,
+    0 4px 8px -2px rgba(5, 34, 21, 0.4) !important;
+}
+
+/* 2. Vivid Jewel Emerald 3D Sculpted Button / CTA */
+.fx-2d-forest {
+  background-image: linear-gradient(
+    180deg,
+    #137A52 0%,
+    #09563A 50%,
+    #053825 100%
+  ) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  border: 1.5px solid #FFD24C !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 240, 185, 0.52),
+    inset 0 -3px 5px 0 rgba(2, 18, 11, 0.68),
+    0 2px 0 0 #052E1E,
+    0 5px 0 0 #031C12,
+    0 6px 0 0 #010E09,
+    0 12px 22px -4px rgba(5, 40, 26, 0.52),
+    0 16px 28px -10px rgba(8, 76, 50, 0.42) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-forest:hover {
+    transform: translateY(-3px) scale(1.015);
+    border-color: #FFE57F !important;
+    background-image: linear-gradient(
+      180deg,
+      #188F61 0%,
+      #0C6947 50%,
+      #07452E 100%
+    ) !important;
+    box-shadow:
+      inset 0 2px 2px 0 rgba(255, 246, 205, 0.65),
+      inset 0 -3px 5px 0 rgba(2, 18, 11, 0.55),
+      0 3px 0 0 #052E1E,
+      0 7px 0 0 #031C12,
+      0 8px 0 0 #010E09,
+      0 18px 28px -4px rgba(5, 40, 26, 0.62),
+      0 22px 36px -8px rgba(255, 199, 44, 0.3) !important;
+  }
+}
+
+.fx-2d-forest:active {
+  transform: translateY(4px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 5px 0 rgba(0, 0, 0, 0.68),
+    0 1px 0 0 #031C12,
+    0 2px 0 0 #010E09,
+    0 4px 8px -2px rgba(5, 40, 26, 0.42) !important;
+}
+
+/* 3. Vivid Ruby Chili Crimson 3D Sculpted Button / CTA */
+.fx-2d-crimson {
+  background-image: linear-gradient(
+    180deg,
+    #FF424E 0%,
+    #D91B24 50%,
+    #9E0E15 100%
+  ) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(68, 4, 8, 0.7);
+  border: 1.5px solid #FFD24C !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 235, 235, 0.65),
+    inset 0 -3px 5px 0 rgba(74, 5, 9, 0.68),
+    0 2px 0 0 #820B11,
+    0 5px 0 0 #57060A,
+    0 6px 0 0 #330205,
+    0 12px 22px -4px rgba(130, 11, 17, 0.52),
+    0 16px 30px -8px rgba(217, 27, 36, 0.45) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-crimson:hover {
+    transform: translateY(-3px) scale(1.015);
+    border-color: #FFE57F !important;
+    background-image: linear-gradient(
+      180deg,
+      #FF5762 0%,
+      #E6222C 50%,
+      #B01119 100%
+    ) !important;
+    box-shadow:
+      inset 0 2px 2px 0 rgba(255, 242, 242, 0.78),
+      inset 0 -3px 5px 0 rgba(74, 5, 9, 0.55),
+      0 3px 0 0 #820B11,
+      0 7px 0 0 #57060A,
+      0 8px 0 0 #330205,
+      0 18px 28px -4px rgba(130, 11, 17, 0.62),
+      0 22px 38px -8px rgba(217, 27, 36, 0.55) !important;
+  }
+}
+
+.fx-2d-crimson:active {
+  transform: translateY(4px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 5px 0 rgba(54, 3, 6, 0.72),
+    0 1px 0 0 #57060A,
+    0 2px 0 0 #330205,
+    0 4px 8px -2px rgba(130, 11, 17, 0.45) !important;
+}
+
+/* 4. DANA Blue 3D Sculpted Button / Emblem */
+.fx-2d-blue {
+  background-image: linear-gradient(
+    180deg,
+    #38B0FF 0%,
+    #108EE9 50%,
+    #0968B0 100%
+  ) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(5, 48, 82, 0.65);
+  border: 1.5px solid #99D8FF !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -3px 5px 0 rgba(6, 52, 89, 0.6),
+    0 2px 0 0 #095894,
+    0 5px 0 0 #063E6B,
+    0 6px 0 0 #032642,
+    0 12px 22px -4px rgba(6, 62, 107, 0.48) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-blue:hover {
+    transform: translateY(-3px) scale(1.015);
+    box-shadow:
+      inset 0 2px 2px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -3px 5px 0 rgba(6, 52, 89, 0.5),
+      0 3px 0 0 #095894,
+      0 7px 0 0 #063E6B,
+      0 8px 0 0 #032642,
+      0 18px 28px -4px rgba(6, 62, 107, 0.56) !important;
+  }
+}
+
+.fx-2d-blue:active {
+  transform: translateY(4px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 5px 0 rgba(3, 38, 66, 0.6),
+    0 1px 0 0 #063E6B,
+    0 2px 0 0 #032642,
+    0 4px 8px -2px rgba(6, 62, 107, 0.36) !important;
+}
+
+/* 5. Pure Pearl White / Gold-Rim 3D Sculpted Button & Chip */
+.fx-2d-ivory {
+  background-image: linear-gradient(
+    180deg,
+    #FFFFFF 0%,
+    #FFFDF7 55%,
+    #F5EBD6 100%
+  ) !important;
+  color: #06422B !important;
+  border: 1.5px solid #E5A812 !important;
+  box-shadow:
+    inset 0 2px 1px 0 #FFFFFF,
+    inset 0 -2.5px 4px 0 rgba(184, 125, 0, 0.2),
+    0 2px 0 0 #C9A86A,
+    0 4.5px 0 0 #9E7B3B,
+    0 5.5px 0 0 #6E521F,
+    0 10px 20px -4px rgba(8, 76, 50, 0.22) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-ivory:hover {
+    transform: translateY(-2.5px) scale(1.012);
+    border-color: #084C32 !important;
+    background-image: linear-gradient(
+      180deg,
+      #FFFFFF 0%,
+      #FFFDF9 55%,
+      #F7EFE0 100%
+    ) !important;
+    box-shadow:
+      inset 0 2px 1px 0 #FFFFFF,
+      inset 0 -2.5px 4px 0 rgba(8, 76, 50, 0.16),
+      0 3px 0 0 #B89758,
+      0 6px 0 0 #8C6B2E,
+      0 7px 0 0 #5C4419,
+      0 15px 24px -4px rgba(8, 76, 50, 0.3) !important;
+  }
+}
+
+.fx-2d-ivory:active {
+  transform: translateY(3.5px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 4px 0 rgba(110, 82, 31, 0.25),
+    0 1px 0 0 #9E7B3B,
+    0 2px 0 0 #6E521F,
+    0 4px 8px -2px rgba(8, 76, 50, 0.2) !important;
+}
+
+/* 6. Jewel Emerald / Royal Bugis 3D Sculpted Card Chip & Secondary Hero Button */
+.fx-2d-dark-chip {
+  background-image: linear-gradient(
+    180deg,
+    #146B48 0%,
+    #0A4A31 52%,
+    #063020 100%
+  ) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid #FFD24C !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 240, 185, 0.48),
+    inset 0 -3px 5px 0 rgba(2, 16, 10, 0.75),
+    0 2px 0 0 #052619,
+    0 5px 0 0 #03170F,
+    0 6px 0 0 #010A06,
+    0 12px 22px -4px rgba(0, 0, 0, 0.62) !important;
+}
+
+@media (hover: hover) {
+  .fx-2d-dark-chip:hover {
+    transform: translateY(-2.5px) scale(1.015);
+    border-color: #FFE57F !important;
+    background-image: linear-gradient(
+      180deg,
+      #198057 0%,
+      #0D593C 52%,
+      #083B27 100%
+    ) !important;
+    box-shadow:
+      inset 0 2px 2px 0 rgba(255, 245, 204, 0.62),
+      inset 0 -3px 5px 0 rgba(2, 16, 10, 0.65),
+      0 3px 0 0 #052619,
+      0 6.5px 0 0 #03170F,
+      0 7.5px 0 0 #010A06,
+      0 16px 28px -4px rgba(0, 0, 0, 0.72),
+      0 0 20px -4px rgba(255, 199, 44, 0.45) !important;
+  }
+}
+
+.fx-2d-dark-chip:active {
+  transform: translateY(3.5px) scale(0.99) !important;
+  box-shadow:
+    inset 0 2px 5px 0 rgba(0, 0, 0, 0.75),
+    0 1px 0 0 #03170F,
+    0 2px 0 0 #010A06,
+    0 4px 8px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 7. 3D Sculpted Icon Boxes, Brand Medallions & Pill Badges */
+.fx-2d-icon-box {
+  background-image: linear-gradient(
+    180deg,
+    #15754E 0%,
+    #095236 52%,
+    #053321 100%
+  ) !important;
+  border: 1.5px solid #FFD24C !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 242, 195, 0.58),
+    inset 0 -2.5px 4px 0 rgba(2, 16, 10, 0.7),
+    0 2px 0 0 #052619,
+    0 4.5px 0 0 #02140D,
+    0 10px 18px -3px rgba(5, 38, 25, 0.52) !important;
+}
+
+.fx-2d-icon-gojek {
+  background-image: linear-gradient(
+    180deg,
+    #20DC36 0%,
+    #00B515 52%,
+    #00820F 100%
+  ) !important;
+  border: 1.5px solid #9EFFA8 !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -2.5px 4px 0 rgba(0, 68, 8, 0.65),
+    0 2px 0 0 #006B0C,
+    0 4.5px 0 0 #004708,
+    0 10px 18px -3px rgba(0, 140, 16, 0.48) !important;
+}
+
+.fx-2d-icon-maxim {
+  background-image: linear-gradient(
+    180deg,
+    #FFEA75 0%,
+    #FFD000 52%,
+    #E0A800 100%
+  ) !important;
+  border: 1.5px solid #FFF7C2 !important;
+  box-shadow:
+    inset 0 2px 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2.5px 4px 0 rgba(140, 100, 0, 0.48),
+    0 2px 0 0 #B38600,
+    0 4.5px 0 0 #7D5D00,
+    0 10px 18px -3px rgba(184, 138, 0, 0.48) !important;
+}
+
+.fx-2d-badge-pill {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.62),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.28),
+    0 2px 0 0 rgba(28, 21, 17, 0.45),
+    0 4px 8px -2px rgba(28, 21, 17, 0.32) !important;
+}
+
+.fx-2d-svg-emblem {
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 248, 220, 0.55))
+    drop-shadow(0 2px 0 #9E6800)
+    drop-shadow(0 3.5px 0 #4D3000)
+    drop-shadow(0 7px 12px rgba(0, 0, 0, 0.55));
+  transform: translateZ(8px);
+}
+
+/* Hide scrollbar for snap carousel while keeping functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =====================================================================
+   PREMIUM 3D IPHONE 18 PRO TITANIUM HARDWARE (4K ULTRA-CRISP & ZERO LAG)
+   ===================================================================== */
+.iphone-3d-stage {
+  isolation: isolate;
+}
+
+.iphone-3d-body {
+  position: relative;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .iphone-3d-stage:hover .iphone-3d-body {
+    transform: translateY(-3px);
+  }
+}
+
+.iphone-3d-chassis {
+  background-image: linear-gradient(
+    142deg,
+    #F3E5CA 0%,
+    #C9B79F 18%,
+    #706459 42%,
+    #352E28 66%,
+    #8F8070 86%,
+    #E6D4B6 100%
+  );
+  box-shadow:
+    inset 1.5px 1.5px 0 0 rgba(255, 249, 232, 0.78),
+    inset -2px -2.5px 3px 0 rgba(12, 9, 7, 0.88),
+    0 3px 0 0 #8E7F6E,
+    0 6px 0 0 #5D5247,
+    0 10px 0 0 #3A322B,
+    0 14px 0 0 #211C18,
+    0 16px 0 -1px #0C0A08,
+    0 28px 54px -16px rgba(3, 22, 14, 0.74),
+    0 0 38px -10px rgba(255, 210, 76, 0.24);
+}
+
+.iphone-3d-bezel {
+  background-image: linear-gradient(
+    180deg,
+    #1B1613 0%,
+    #070605 38%,
+    #040404 72%,
+    #16120F 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 224, 140, 0.22),
+    inset 0 2px 6px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(0, 0, 0, 0.88);
+}
+
+.iphone-3d-glass-reflection {
+  background:
+    linear-gradient(
+      128deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 7%,
+      transparent 16%,
+      transparent 88%,
+      rgba(255, 210, 76, 0.05) 100%
+    );
+  pointer-events: none;
+}
+
+.iphone-3d-shadow-pool {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(2, 18, 12, 0.56) 0%,
+    rgba(2, 18, 12, 0.28) 38%,
+    rgba(2, 18, 12, 0.08) 62%,
+    transparent 76%
+  );
+}
+
+/* Native 4K Vector & Typography Sharpness for Interactive Tutorial Viewport */
+.tutorial-crisp-stage {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}
+
+/* Clean Smooth Google Maps Tile & Leaflet Zoom Rendering */
+.leaflet-container {
+  font-family: inherit;
+  background-color: #E5E3DF;
+  -webkit-font-smoothing: antialiased;
+}
+
+.leaflet-tile {
+  image-rendering: auto;
+}
+
+/* =====================================================================
+   WELCOME INTRO OVERLAY (Deep Forest Green Heritage Stage — 60fps Smooth)
+   ===================================================================== */
+.bg-intro-culinary-stage {
+  background-color: #193D2B;
+  background-image:
+    radial-gradient(ellipse 75% 55% at 50% 40%, rgba(217, 165, 46, 0.14) 0%, transparent 62%),
+    linear-gradient(180deg, #1E4733 0%, #132F21 100%);
+}
+
+.intro-crest-spin {
+  transform: translateZ(0);
+  will-change: transform;
+  animation: intro-ring-rotate 34s linear infinite;
+}
+
+@keyframes intro-ring-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.intro-emblem-enter {
+  will-change: transform, opacity;
+  animation: intro-emblem-in 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes intro-emblem-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.intro-halo-pulse {
+  will-change: transform, opacity;
+  animation: intro-halo-breathe 3.6s ease-in-out infinite;
+}
+
+@keyframes intro-halo-breathe {
+  0%, 100% {
+    opacity: 0.65;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.03);
+  }
+}
+
+.intro-fade-up-1 {
+  will-change: transform, opacity;
+  animation: intro-fade-up 520ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+}
+
+.intro-fade-up-2 {
+  will-change: transform, opacity;
+  animation: intro-fade-up 680ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+}
+
+.intro-fade-up-3 {
+  will-change: transform, opacity;
+  animation: intro-fade-up 680ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+}
+
+@keyframes intro-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.intro-progress-bar-5s {
+  will-change: transform;
+  transform: scaleX(0);
+  animation: intro-progress-fill 5000ms linear forwards;
+}
+
+@keyframes intro-progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.intro-logo-sheen {
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.34) 50%,
+    transparent 65%
+  );
+  transform: translate3d(-120%, 0, 0);
+  animation: intro-sheen-pass 2.2s cubic-bezier(0.22, 1, 0.36, 1) 650ms 1 forwards;
+}
+
+@keyframes intro-sheen-pass {
+  from {
+    transform: translate3d(-120%, 0, 0);
+  }
+  to {
+    transform: translate3d(120%, 0, 0);
+  }
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .iphone-3d-body {
+    transform: none !important;
+  }
+  .intro-progress-bar-5s {
+    transform: scaleX(1) !important;
+  }
+}
+
+/* Scroll & Zoom Performance Optimization (Targeted to active animations only — prevents full-DOM repaint glitches) */
+body.is-scrolling .intro-crest-spin,
+body.is-scrolling .intro-halo-pulse,
+body.is-scrolling .map3d-pin-halo,
+body.is-zooming .intro-crest-spin,
+body.is-zooming .intro-halo-pulse,
+body.is-zooming .map3d-pin-halo {
+  animation-play-state: paused !important;
+}
+
+/* =====================================================================
+   TUTORIAL DOM STAGE — VIRTUAL TOUCH RIPPLE & TYPING CARET (GPU ONLY)
+   ===================================================================== */
+@keyframes tutorial-ripple-outer {
+  0% {
+    transform: translate(-50%, -50%) scale(0.35);
+    opacity: 0.92;
+  }
+  70% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.45);
+    opacity: 0;
+  }
+}
+
+@keyframes tutorial-ripple-inner {
+  0% {
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.65);
+    opacity: 0;
+  }
+}
+
+@keyframes tutorial-caret-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.tutorial-touch-ripple-outer {
+  animation: tutorial-ripple-outer 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.tutorial-touch-ripple-inner {
+  animation: tutorial-ripple-inner 420ms cubic-bezier(0.16, 1, 0.3, 1) 45ms forwards;
+}
+
+.tutorial-typing-caret {
+  animation: tutorial-caret-blink 820ms steps(1, end) infinite;
+}
+
+/* =====================================================================
+   MAP 3D ANIMATED STAGE — MAPLIBRE MARKERS & NEON BEACON (GPU ONLY)
+   ===================================================================== */
+@keyframes map3d-pin-halo {
+  0% {
+    transform: translate(-50%, -50%) scale(0.55);
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.15);
+    opacity: 0;
+  }
+}
+
+@keyframes map3d-pin-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.map3d-pin-halo {
+  animation: map3d-pin-halo 2.1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.map3d-marker-inner {
+  transform-origin: bottom center;
+  transition:
+    opacity 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep MapLibre controls unobtrusive inside mobile/cinema 3D stage */
+.map3d-stage-root .maplibregl-ctrl-attrib {
+  font-size: 9px;
+  background: rgba(15, 23, 42, 0.55);
+  color: rgba(226, 232, 240, 0.72);
+  border-radius: 6px 0 0 0;
+  padding: 1px 5px;
+}
+
+.map3d-stage-root .maplibregl-ctrl-attrib a {
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.map3d-stage-root .maplibregl-canvas {
+  outline: none;
+}

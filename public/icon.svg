@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="112" fill="#0E261A"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" stroke="#D9A52E" stroke-width="8" stroke-opacity="0.65"/>
+  <path d="M256 64L304 112L256 160L208 112L256 64Z" stroke="#E8C56E" stroke-width="6" fill="#193D2B"/>
+  <circle cx="256" cy="276" r="134" fill="#163826" stroke="#D9A52E" stroke-width="10"/>
+  <path d="M168 310C168 248 206 196 256 176C306 196 344 248 344 310H168Z" fill="#E8C56E"/>
+  <rect x="148" y="310" width="216" height="26" rx="13" fill="#A83A2D"/>
+  <text x="256" y="424" text-anchor="middle" fill="#FAF6EE" font-family="Georgia, serif" font-weight="bold" font-size="44" letter-spacing="4">LASINRANG</text>
+</svg>
