@@ -1,0 +1,330 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // 1. GLOBAL DEFAULT-DENY SAFETY NET
+    // -------------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. REUSABLE HARDENED PRIMITIVES
+    // -------------------------------------------------------------------------
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidCoord(lat, lng) {
+      return lat is number && lng is number && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+    }
+
+    // Claim-only verified owner check (safe for allow list — zero get()/exists() O(n) reads)
+    function isBootstrappedAdmin() {
+      return isSignedIn() && isVerifiedUser() && (
+        request.auth.token.email == 'ardiansyahardhy411@gmail.com'
+      );
+    }
+
+    // Full Admin verification for single-doc operations (get, create, update, delete)
+    function isAdmin() {
+      return isBootstrappedAdmin() || (
+        isSignedIn() && isVerifiedUser() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. ENTITY VALIDATION BLUEPRINTS (SYNCHRONIZED WITH firebase-blueprint.json)
+    // -------------------------------------------------------------------------
+    function isValidStoreSettings(data) {
+      return data.keys().hasAll(['brandName', 'locationAddress', 'isOpenLive', 'whatsappNumber', 'ewalletNumber', 'updatedAt'])
+        && data.keys().hasOnly([
+          'brandName', 'tagline', 'locationAddress', 'pickupCoordinatesText',
+          'operatingHours', 'isOpenLive', 'liveStatusText', 'whatsappNumber',
+          'whatsappDisplay', 'ewalletNumber', 'ewalletDisplay', 'qrisMerchantName',
+          'qrisNmid', 'qrisTerminalId', 'qrisPrintedBy', 'qrisVersion', 'qrisImageUrl',
+          'gofoodUrl', 'maximUrl', 'googleMapsQuery', 'storeLat', 'storeLng',
+          'storePlaceId', 'storePlaceName', 'portionPresets', 'extraSideOptions',
+          'sambalOptions', 'ownerAuthorityLocked', 'deletedMenuIds', 'updatedAt'
+        ])
+        && data.brandName is string && data.brandName.size() >= 1 && data.brandName.size() <= 120
+        && data.locationAddress is string && data.locationAddress.size() >= 1 && data.locationAddress.size() <= 360
+        && data.isOpenLive is bool
+        && data.whatsappNumber is string && data.whatsappNumber.size() >= 6 && data.whatsappNumber.size() <= 25
+        && data.ewalletNumber is string && data.ewalletNumber.size() >= 6 && data.ewalletNumber.size() <= 25
+        && (!('tagline' in data) || (data.tagline is string && data.tagline.size() <= 240))
+        && (!('pickupCoordinatesText' in data) || (data.pickupCoordinatesText is string && data.pickupCoordinatesText.size() <= 360))
+        && (!('operatingHours' in data) || (data.operatingHours is string && data.operatingHours.size() <= 200))
+        && (!('liveStatusText' in data) || (data.liveStatusText is string && data.liveStatusText.size() <= 200))
+        && (!('whatsappDisplay' in data) || (data.whatsappDisplay is string && data.whatsappDisplay.size() <= 30))
+        && (!('ewalletDisplay' in data) || (data.ewalletDisplay is string && data.ewalletDisplay.size() <= 30))
+        && (!('qrisMerchantName' in data) || (data.qrisMerchantName is string && data.qrisMerchantName.size() <= 140))
+        && (!('qrisNmid' in data) || (data.qrisNmid is string && data.qrisNmid.size() <= 50))
+        && (!('qrisTerminalId' in data) || (data.qrisTerminalId is string && data.qrisTerminalId.size() <= 20))
+        && (!('qrisPrintedBy' in data) || (data.qrisPrintedBy is string && data.qrisPrintedBy.size() <= 40))
+        && (!('qrisVersion' in data) || (data.qrisVersion is string && data.qrisVersion.size() <= 40))
+        && (!('qrisImageUrl' in data) || (data.qrisImageUrl is string && data.qrisImageUrl.size() <= 350000))
+        && (!('gofoodUrl' in data) || (data.gofoodUrl is string && data.gofoodUrl.size() <= 500))
+        && (!('maximUrl' in data) || (data.maximUrl is string && data.maximUrl.size() <= 500))
+        && (!('googleMapsQuery' in data) || (data.googleMapsQuery is string && data.googleMapsQuery.size() <= 360))
+        && (!('storeLat' in data) || (data.storeLat is number && data.storeLat >= -90 && data.storeLat <= 90))
+        && (!('storeLng' in data) || (data.storeLng is number && data.storeLng >= -180 && data.storeLng <= 180))
+        && (!('storePlaceId' in data) || (data.storePlaceId is string && data.storePlaceId.size() <= 160))
+        && (!('storePlaceName' in data) || (data.storePlaceName is string && data.storePlaceName.size() <= 200))
+        && (!('extraSideOptions' in data) || (data.extraSideOptions is list && data.extraSideOptions.size() <= 25 && (data.extraSideOptions.size() == 0 || data.extraSideOptions[0] is string)))
+        && (!('sambalOptions' in data) || (data.sambalOptions is list && data.sambalOptions.size() <= 10 && (data.sambalOptions.size() == 0 || data.sambalOptions[0] is map)))
+        && (!('portionPresets' in data) || (
+          data.portionPresets is map
+          && data.portionPresets.keys().hasOnly([
+            'extraPuasLabel', 'extraPuasRegulerDelta', 'extraPuasSpesialDelta',
+            'jumboLabel', 'jumboRegulerDelta', 'jumboSpesialDelta'
+          ])
+        ))
+        && (!('ownerAuthorityLocked' in data) || data.ownerAuthorityLocked is bool)
+        && (!('deletedMenuIds' in data) || (data.deletedMenuIds is list && data.deletedMenuIds.size() <= 100 && (data.deletedMenuIds.size() == 0 || data.deletedMenuIds[0] is string)))
+        && data.updatedAt == request.time;
+    }
+
+    function isValidMenuItem(data, itemId) {
+      return data.keys().hasAll(['id', 'name', 'category', 'basePrice', 'description', 'sidesIncluded', 'imageUrl', 'isAvailable', 'spiceLevel'])
+        && data.keys().hasOnly([
+          'id', 'name', 'category', 'basePrice', 'description', 'sidesIncluded',
+          'imageUrl', 'signatureTag', 'isAvailable', 'spiceLevel', 'updatedAt'
+        ])
+        && data.id == itemId
+        && isValidId(data.id)
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 140
+        && data.category in ['reguler', 'spesial']
+        && data.basePrice is number && data.basePrice >= 1000 && data.basePrice <= 10000000
+        && data.description is string && data.description.size() <= 700
+        && data.sidesIncluded is list && data.sidesIncluded.size() <= 15 && (data.sidesIncluded.size() == 0 || data.sidesIncluded[0] is string)
+        && data.imageUrl is string && data.imageUrl.size() <= 350000
+        && (!('signatureTag' in data) || (data.signatureTag is string && data.signatureTag.size() <= 120))
+        && data.isAvailable is bool
+        && data.spiceLevel is string && data.spiceLevel.size() <= 120
+        && (!('updatedAt' in data) || data.updatedAt == request.time);
+    }
+
+    function isValidOwnerPrivateSettings(data) {
+      return data.keys().hasAll(['protectedByFirebase', 'updatedAt'])
+        && data.keys().hasOnly([
+          'quickReplyDraft', 'qrCustomUrl', 'protectedByFirebase', 'migrationVersion', 'lastMigratedBy', 'updatedAt'
+        ])
+        && data.protectedByFirebase is bool
+        && (!('qrCustomUrl' in data) || (data.qrCustomUrl is string && data.qrCustomUrl.size() <= 500))
+        && (!('quickReplyDraft' in data) || (
+          data.quickReplyDraft is map
+          && data.quickReplyDraft.keys().hasOnly(['customerName', 'customerWa', 'foodSubtotal', 'extraSideFee', 'shippingFee'])
+          && (!('customerName' in data.quickReplyDraft) || (data.quickReplyDraft.customerName is string && data.quickReplyDraft.customerName.size() <= 100))
+          && (!('customerWa' in data.quickReplyDraft) || (data.quickReplyDraft.customerWa is string && data.quickReplyDraft.customerWa.size() <= 30))
+          && (!('foodSubtotal' in data.quickReplyDraft) || (data.quickReplyDraft.foodSubtotal is number && data.quickReplyDraft.foodSubtotal >= 0 && data.quickReplyDraft.foodSubtotal <= 100000000))
+          && (!('extraSideFee' in data.quickReplyDraft) || (data.quickReplyDraft.extraSideFee is number && data.quickReplyDraft.extraSideFee >= 0 && data.quickReplyDraft.extraSideFee <= 100000000))
+          && (!('shippingFee' in data.quickReplyDraft) || (data.quickReplyDraft.shippingFee is number && data.quickReplyDraft.shippingFee >= 0 && data.quickReplyDraft.shippingFee <= 100000000))
+        ))
+        && (!('migrationVersion' in data) || (data.migrationVersion is number && data.migrationVersion >= 0 && data.migrationVersion <= 1000))
+        && (!('lastMigratedBy' in data) || (data.lastMigratedBy is string && data.lastMigratedBy.size() <= 160))
+        && data.updatedAt == request.time;
+    }
+
+    function isValidOwnerAuditLog(data, logId) {
+      return data.keys().hasAll(['id', 'action', 'actorUid', 'actorEmail', 'storeSaved', 'menuCount', 'orderCount', 'createdAt'])
+        && data.keys().hasOnly(['id', 'action', 'actorUid', 'actorEmail', 'storeSaved', 'menuCount', 'orderCount', 'note', 'createdAt'])
+        && data.id == logId
+        && isValidId(data.id)
+        && data.action in ['migration', 'cloud_save', 'backup_restore', 'explicit_reset']
+        && data.actorUid == request.auth.uid
+        && isValidId(data.actorUid)
+        && data.actorEmail is string && data.actorEmail.size() >= 3 && data.actorEmail.size() <= 160
+        && data.actorEmail == request.auth.token.email
+        && data.storeSaved is bool
+        && data.menuCount is number && data.menuCount >= 0 && data.menuCount <= 500
+        && data.orderCount is number && data.orderCount >= 0 && data.orderCount <= 10000
+        && (!('note' in data) || (data.note is string && data.note.size() <= 300))
+        && data.createdAt == request.time;
+    }
+
+    function isValidSavedLocation(data, userId, locationId) {
+      return data.keys().hasAll([
+          'id', 'userId', 'label', 'deliveryAddress', 'lat', 'lng',
+          'googleMapsLink', 'isDefault', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'userId', 'label', 'recipientName', 'recipientPhone',
+          'deliveryAddress', 'alleyDetail', 'landmark', 'lat', 'lng', 'googleMapsLink',
+          'isDefault', 'createdAt', 'updatedAt'
+        ])
+        && data.id == locationId
+        && isValidId(data.id)
+        && data.userId == userId
+        && data.userId == request.auth.uid
+        && data.label is string && data.label.size() >= 1 && data.label.size() <= 60
+        && (!('recipientName' in data) || (data.recipientName is string && data.recipientName.size() <= 100))
+        && (!('recipientPhone' in data) || (data.recipientPhone is string && data.recipientPhone.size() <= 25))
+        && data.deliveryAddress is string && data.deliveryAddress.size() >= 1 && data.deliveryAddress.size() <= 450
+        && (!('alleyDetail' in data) || (data.alleyDetail is string && data.alleyDetail.size() <= 240))
+        && (!('landmark' in data) || (data.landmark is string && data.landmark.size() <= 240))
+        && isValidCoord(data.lat, data.lng)
+        && data.googleMapsLink is string && data.googleMapsLink.size() >= 1 && data.googleMapsLink.size() <= 450
+        && data.isDefault is bool
+        && data.updatedAt == request.time;
+    }
+
+    function isValidOrder(data, orderId) {
+      return data.keys().hasAll([
+          'id', 'userId', 'customerName', 'customerPhone', 'fulfillment',
+          'paymentMethod', 'itemsSummary', 'foodSubtotal', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'userId', 'customerName', 'customerPhone', 'fulfillment',
+          'deliveryAddress', 'landmark', 'googleMapsLink', 'customerLat', 'customerLng',
+          'courierInfo', 'customerNotes', 'paymentMethod', 'paymentProofUrl', 'itemsSummary',
+          'foodSubtotal', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.id == orderId
+        && isValidId(data.id)
+        && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128
+        && data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 100
+        && data.customerPhone is string && data.customerPhone.size() >= 6 && data.customerPhone.size() <= 25
+        && data.fulfillment in ['pickup', 'own_courier', 'help_courier']
+        && (!('deliveryAddress' in data) || (data.deliveryAddress is string && data.deliveryAddress.size() <= 450))
+        && (!('landmark' in data) || (data.landmark is string && data.landmark.size() <= 240))
+        && (!('googleMapsLink' in data) || (data.googleMapsLink is string && data.googleMapsLink.size() <= 450))
+        && (!('customerLat' in data) || (data.customerLat is number && data.customerLat >= -90 && data.customerLat <= 90))
+        && (!('customerLng' in data) || (data.customerLng is number && data.customerLng >= -180 && data.customerLng <= 180))
+        && (!('courierInfo' in data) || (data.courierInfo is string && data.courierInfo.size() <= 240))
+        && (!('customerNotes' in data) || (data.customerNotes is string && data.customerNotes.size() <= 450))
+        && data.paymentMethod in ['qris', 'gopay', 'dana']
+        && (!('paymentProofUrl' in data) || (data.paymentProofUrl is string && data.paymentProofUrl.size() <= 500))
+        && data.itemsSummary is list && data.itemsSummary.size() >= 1 && data.itemsSummary.size() <= 50 && data.itemsSummary[0] is map
+        && data.foodSubtotal is number && data.foodSubtotal > 0 && data.foodSubtotal <= 100000000
+        && data.status in ['Menunggu Konfirmasi', 'Diproses', 'Selesai']
+        && data.updatedAt == request.time;
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. COLLECTION MATCH BLOCKS
+    // -------------------------------------------------------------------------
+
+    // Public storefront configuration (non-PII): store/main
+    match /store/{docId} {
+      allow get: if docId == 'main';
+      allow list: if false;
+      allow create, update: if isSignedIn() && isVerifiedUser()
+        && docId == 'main'
+        && isValidStoreSettings(incoming())
+        && isAdmin();
+      allow delete: if false;
+    }
+
+    // Public menu catalog (non-PII)
+    match /menuItems/{itemId} {
+      allow get: if isValidId(itemId);
+      allow list: if true;
+      allow create: if isSignedIn() && isVerifiedUser()
+        && isValidId(itemId)
+        && isValidMenuItem(incoming(), itemId)
+        && isAdmin();
+      allow update: if isSignedIn() && isVerifiedUser()
+        && isValidId(itemId)
+        && isValidMenuItem(incoming(), itemId)
+        && incoming().id == existing().id
+        && isAdmin();
+      allow delete: if isSignedIn() && isVerifiedUser() && isValidId(itemId) && isAdmin();
+    }
+
+    // Admin-only private workspace settings (PII isolated): ownerPrivate/settings
+    match /ownerPrivate/{docId} {
+      allow get: if docId == 'settings' && isAdmin();
+      allow list: if false;
+      allow create, update: if isSignedIn() && isVerifiedUser()
+        && docId == 'settings'
+        && isValidOwnerPrivateSettings(incoming())
+        && isAdmin();
+      allow delete: if false;
+    }
+
+    // Immutable admin-only protection & migration audit log
+    match /ownerAuditLogs/{logId} {
+      allow get: if isValidId(logId) && isAdmin();
+      allow list: if isBootstrappedAdmin();
+      allow create: if isSignedIn() && isVerifiedUser()
+        && isValidId(logId)
+        && isValidOwnerAuditLog(incoming(), logId)
+        && isAdmin();
+      allow update, delete: if false;
+    }
+
+    // Customer private saved delivery addresses & Google Maps pins
+    match /users/{userId}/locations/{locationId} {
+      allow get: if isValidId(userId) && isValidId(locationId) && (isOwner(userId) || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrappedAdmin());
+      allow create: if isSignedIn() && isVerifiedUser()
+        && isValidId(userId) && isValidId(locationId)
+        && isOwner(userId)
+        && isValidSavedLocation(incoming(), userId, locationId)
+        && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isVerifiedUser()
+        && isValidId(userId) && isValidId(locationId)
+        && isOwner(userId)
+        && isValidSavedLocation(incoming(), userId, locationId)
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'label', 'recipientName', 'recipientPhone', 'deliveryAddress',
+          'alleyDetail', 'landmark', 'lat', 'lng', 'googleMapsLink', 'isDefault', 'updatedAt'
+        ]);
+      allow delete: if isSignedIn() && isVerifiedUser()
+        && isValidId(userId) && isValidId(locationId)
+        && (isOwner(userId) || isAdmin());
+    }
+
+    // Customer orders (PII protected: only creator or Admin can read)
+    match /orders/{orderId} {
+      allow get: if isValidId(orderId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBootstrappedAdmin());
+      allow create: if isSignedIn() && isVerifiedUser()
+        && isValidId(orderId)
+        && isValidOrder(incoming(), orderId)
+        && incoming().userId == request.auth.uid
+        && incoming().createdAt == request.time
+        && (incoming().status == 'Menunggu Konfirmasi' || isAdmin());
+      allow update: if isSignedIn() && isVerifiedUser()
+        && isValidId(orderId)
+        && isValidOrder(incoming(), orderId)
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+        && isAdmin();
+      allow delete: if isSignedIn() && isVerifiedUser() && isValidId(orderId) && isAdmin();
+    }
+
+    // Admin registry (read-only by owner/admin)
+    match /admins/{uid} {
+      allow get: if isValidId(uid) && (isOwner(uid) || isAdmin());
+      allow list, write: if false;
+    }
+  }
+}

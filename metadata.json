@@ -1,0 +1,8 @@
+{
+  "name": "Remix Nasi Kuning Lasinrang",
+  "description": "Manyameng Tongeng • Cita Rasa Rempah Bugis Asli di Jantung Kota Pinrang. Kuliner Malam Legendaris Tepat di Depan Patung Lasinrang.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

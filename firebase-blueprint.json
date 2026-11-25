@@ -1,0 +1,233 @@
+{
+  "entities": {
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Public storefront configuration, live status, QRIS details, portion presets, QR print URL, migration metadata, and verified Kedai Google Maps coordinates.",
+      "type": "object",
+      "properties": {
+        "brandName": { "type": "string", "maxLength": 120 },
+        "tagline": { "type": "string", "maxLength": 240 },
+        "locationAddress": { "type": "string", "maxLength": 360 },
+        "pickupCoordinatesText": { "type": "string", "maxLength": 360 },
+        "operatingHours": { "type": "string", "maxLength": 200 },
+        "isOpenLive": { "type": "boolean" },
+        "liveStatusText": { "type": "string", "maxLength": 200 },
+        "whatsappNumber": { "type": "string", "maxLength": 25 },
+        "whatsappDisplay": { "type": "string", "maxLength": 30 },
+        "ewalletNumber": { "type": "string", "maxLength": 25 },
+        "ewalletDisplay": { "type": "string", "maxLength": 30 },
+        "qrisMerchantName": { "type": "string", "maxLength": 140 },
+        "qrisNmid": { "type": "string", "maxLength": 50 },
+        "qrisTerminalId": { "type": "string", "maxLength": 20 },
+        "qrisPrintedBy": { "type": "string", "maxLength": 40 },
+        "qrisVersion": { "type": "string", "maxLength": 40 },
+        "qrisImageUrl": { "type": "string", "maxLength": 350000 },
+        "gofoodUrl": { "type": "string", "maxLength": 500 },
+        "maximUrl": { "type": "string", "maxLength": 500 },
+        "googleMapsQuery": { "type": "string", "maxLength": 360 },
+        "storeLat": { "type": "number" },
+        "storeLng": { "type": "number" },
+        "storePlaceId": { "type": "string", "maxLength": 160 },
+        "storePlaceName": { "type": "string", "maxLength": 200 },
+        "portionPresets": { "type": "object" },
+        "extraSideOptions": { "type": "array" },
+        "sambalOptions": { "type": "array" },
+        "ownerAuthorityLocked": { "type": "boolean" },
+        "deletedMenuIds": { "type": "array" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "brandName",
+        "locationAddress",
+        "isOpenLive",
+        "whatsappNumber",
+        "ewalletNumber",
+        "updatedAt"
+      ]
+    },
+    "MenuCatalogItem": {
+      "title": "MenuCatalogItem",
+      "description": "Public menu item available at Nasi Kuning Lasinrang with permanent owner-curated photo and pricing.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "name": { "type": "string", "maxLength": 140 },
+        "category": { "type": "string", "enum": ["reguler", "spesial"] },
+        "basePrice": { "type": "number" },
+        "description": { "type": "string", "maxLength": 700 },
+        "sidesIncluded": { "type": "array" },
+        "imageUrl": { "type": "string", "maxLength": 350000 },
+        "signatureTag": { "type": "string", "maxLength": 120 },
+        "isAvailable": { "type": "boolean" },
+        "spiceLevel": { "type": "string", "maxLength": 120 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "basePrice",
+        "description",
+        "sidesIncluded",
+        "imageUrl",
+        "isAvailable",
+        "spiceLevel"
+      ]
+    },
+    "OwnerPrivateSettings": {
+      "title": "OwnerPrivateSettings",
+      "description": "Private admin-only workspace settings including WhatsApp Quick Reply calculator draft, custom QR print URL, and Firebase vault protection metadata.",
+      "type": "object",
+      "properties": {
+        "quickReplyDraft": { "type": "object" },
+        "qrCustomUrl": { "type": "string", "maxLength": 500 },
+        "protectedByFirebase": { "type": "boolean" },
+        "migrationVersion": { "type": "number" },
+        "lastMigratedBy": { "type": "string", "maxLength": 160 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "protectedByFirebase",
+        "updatedAt"
+      ]
+    },
+    "OwnerAuditLog": {
+      "title": "OwnerAuditLog",
+      "description": "Immutable admin-only audit trail recording every permanent Firebase cloud save, migration, backup restoration, or explicit owner reset.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "action": { "type": "string", "enum": ["migration", "cloud_save", "backup_restore", "explicit_reset"] },
+        "actorUid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "actorEmail": { "type": "string", "maxLength": 160 },
+        "storeSaved": { "type": "boolean" },
+        "menuCount": { "type": "number" },
+        "orderCount": { "type": "number" },
+        "note": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id",
+        "action",
+        "actorUid",
+        "actorEmail",
+        "storeSaved",
+        "menuCount",
+        "orderCount",
+        "createdAt"
+      ]
+    },
+    "SavedCustomerLocation": {
+      "title": "SavedCustomerLocation",
+      "description": "Permanently saved customer delivery address and exact Google Maps coordinates.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "label": { "type": "string", "maxLength": 60 },
+        "recipientName": { "type": "string", "maxLength": 100 },
+        "recipientPhone": { "type": "string", "maxLength": 25 },
+        "deliveryAddress": { "type": "string", "maxLength": 450 },
+        "alleyDetail": { "type": "string", "maxLength": 240 },
+        "landmark": { "type": "string", "maxLength": 240 },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "googleMapsLink": { "type": "string", "maxLength": 450 },
+        "isDefault": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id",
+        "userId",
+        "label",
+        "deliveryAddress",
+        "lat",
+        "lng",
+        "googleMapsLink",
+        "isDefault",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer food order with delivery coordinates and status.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerPhone": { "type": "string", "maxLength": 25 },
+        "fulfillment": { "type": "string", "enum": ["pickup", "own_courier", "help_courier"] },
+        "deliveryAddress": { "type": "string", "maxLength": 450 },
+        "landmark": { "type": "string", "maxLength": 240 },
+        "googleMapsLink": { "type": "string", "maxLength": 450 },
+        "customerLat": { "type": "number" },
+        "customerLng": { "type": "number" },
+        "courierInfo": { "type": "string", "maxLength": 240 },
+        "customerNotes": { "type": "string", "maxLength": 450 },
+        "paymentMethod": { "type": "string", "enum": ["qris", "gopay", "dana"] },
+        "paymentProofUrl": { "type": "string", "maxLength": 500 },
+        "itemsSummary": { "type": "array" },
+        "foodSubtotal": { "type": "number" },
+        "status": { "type": "string", "enum": ["Menunggu Konfirmasi", "Diproses", "Selesai"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id",
+        "userId",
+        "customerName",
+        "customerPhone",
+        "fulfillment",
+        "paymentMethod",
+        "itemsSummary",
+        "foodSubtotal",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Elevated Kedai admin account reference.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["admin"] }
+      },
+      "required": ["uid", "role"]
+    }
+  },
+  "firestore": {
+    "/store/{docId}": {
+      "schema": { "$ref": "#/entities/StoreSettings" },
+      "description": "Stores public Kedai settings, QRIS, QR print URL, and coordinates at store/main."
+    },
+    "/menuItems/{itemId}": {
+      "schema": { "$ref": "#/entities/MenuCatalogItem" },
+      "description": "Public menu items catalog managed permanently by Kedai owner."
+    },
+    "/ownerPrivate/{docId}": {
+      "schema": { "$ref": "#/entities/OwnerPrivateSettings" },
+      "description": "Admin-only private settings and Quick Reply draft at ownerPrivate/settings."
+    },
+    "/ownerAuditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/OwnerAuditLog" },
+      "description": "Immutable admin-only protection and migration audit logs."
+    },
+    "/users/{userId}/locations/{locationId}": {
+      "schema": { "$ref": "#/entities/SavedCustomerLocation" },
+      "description": "Private permanently saved delivery locations for a verified customer."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders readable only by the customer or Kedai admin."
+    },
+    "/admins/{uid}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Admin role records for elevated Kedai management."
+    }
+  }
+}
